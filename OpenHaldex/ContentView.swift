@@ -41,25 +41,27 @@ struct ContentView: View {
                             bluetoothManager.connect(to: device)
                         }
                     }) {
-                        Text("Connect to OpenHaldex")
+                        Text(bluetoothManager.isConnected ? "Connected to OpenHaldex" : "Connect to OpenHaldex")
                             .foregroundStyle(.white)
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(Color.blue)
                             .cornerRadius(12)
+                            .background(bluetoothManager.isConnected ? Color.green : Color.blue)
                     }
                     
                     Button(action: {
-                        // Action here
+                        bluetoothManager.disconnect()
                     }) {
                         Text("Disconnect from OpenHaldex")
                             .fontWeight(.semibold)
                             .foregroundStyle(.white)
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(Color.red)
+                            .background(Color.gray)
                             .cornerRadius(12)
-                    }
+                        }
+                    .disabled(!bluetoothManager.isConnected)
+                    .opacity(bluetoothManager.isConnected ? 1.0 : 0.5)
                 }
                 .padding(.horizontal)
                 

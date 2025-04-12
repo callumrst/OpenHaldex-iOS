@@ -14,6 +14,7 @@ import CoreBluetooth
 class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     @Published var discoveredDevices: [CBPeripheral] = []
     @Published var connectedPeripheral: CBPeripheral?
+    @Published var isConnected: Bool = false
 
     private var centralManager: CBCentralManager!
     
@@ -51,6 +52,19 @@ class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelegate, CB
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         print("Connected to \(peripheral.name ?? "Unknown")")
         connectedPeripheral = peripheral
+        isConnected = true
         peripheral.discoverServices(nil)
+    }
+
+    func disconnect() {
+        if let peripheral = connectedPeripheral {
+            centralManager.cancelPeripheralConnection(peripheral)
+        }
+    }
+
+    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        print("Disconnected from \(peripheral.name ?? "Unknown")")
+        connectedPeripheral = nil
+        isConnected = false
     }
 }
