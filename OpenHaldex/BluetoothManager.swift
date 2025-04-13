@@ -3,10 +3,6 @@
 //  OpenHaldex
 //
 //  Created by Callum Roulston on 11/04/2025.
-//
-
-// BluetoothScanner.swift
-// A SwiftUI + CoreBluetooth starter for scanning and connecting to BLE devices
 
 import SwiftUI
 import CoreBluetooth
@@ -15,6 +11,7 @@ class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelegate, CB
     @Published var discoveredDevices: [CBPeripheral] = []
     @Published var connectedPeripheral: CBPeripheral?
     @Published var isConnected: Bool = false
+    @Published var connectedDeviceName: String? = nil
 
     private var centralManager: CBCentralManager!
     
@@ -45,6 +42,8 @@ class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelegate, CB
     func connect(to peripheral: CBPeripheral) {
         centralManager.stopScan()
         centralManager.connect(peripheral, options: nil)
+        connectedPeripheral = peripheral
+        connectedDeviceName = peripheral.name
         peripheral.delegate = self
     }
 
@@ -68,3 +67,4 @@ class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelegate, CB
         isConnected = false
     }
 }
+
