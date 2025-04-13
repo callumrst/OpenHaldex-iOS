@@ -60,12 +60,14 @@ struct ContentView: View {
                             }
                         }
                     } label: {
-                        Text(bluetoothManager.isConnected ? "Connected to OpenHaldex" : "Connect to OpenHaldex")
-                            .foregroundStyle(.white)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .cornerRadius(12)
-                            .background(bluetoothManager.isConnected ? Color.green : Color.blue)
+                        ZStack {
+                            Text(bluetoothManager.isConnected ? "Connected to OpenHaldex" : "Connect to OpenHaldex")
+                                .foregroundStyle(.white)
+                                .padding()
+                        }
+                        .frame(maxWidth: .infinity)
+                        .background(bluetoothManager.isConnected ? Color.green : Color.blue)
+                        .cornerRadius(12)
                     }
                     
                     Button(action: {
