@@ -11,15 +11,15 @@ struct ContentView: View {
     @EnvironmentObject var bluetoothManager: BluetoothManager
     @State private var showToast = false
     @State private var toastMessage = ""
+    @State private var showSettings = false
 
     var body: some View {
         
-        ZStack {
+        ZStack(alignment: .topTrailing) {
             Color(.lightGray)
                 .ignoresSafeArea()
             
             VStack(alignment: .center, spacing: 8) {
-                
                 Text("Forbes Automotive")
                     .font(.largeTitle)
                     .fontWeight(.bold)
@@ -29,7 +29,7 @@ struct ContentView: View {
                     .font(.title2)
                     .fontWeight(.medium)
                 
-                Text("Current version: v0.1.0 (dev)")
+                Text("Current version: \(AppConstants.version)")
                     .foregroundColor(Color.white)
                 
                 Text(bluetoothManager.isConnected ? "Status: Connected to \(bluetoothManager.connectedDeviceName ?? "device")" : "Status: Not connected")
@@ -90,8 +90,12 @@ struct ContentView: View {
                 
                 if showToast {
                     Text(toastMessage)
+                        .font(.subheadline)
+                        .padding()
+                        .background(Color.black.opacity(0.8))
+                        .cornerRadius(10)
                         .foregroundColor(.white)
-                        .padding(.top, 8)
+                        .padding(.bottom, 20)
                         .transition(.opacity)
                         .onAppear {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
@@ -105,6 +109,17 @@ struct ContentView: View {
                 Spacer()
             
             }
+            
+            Button(action: {
+                showSettings = true
+            }) {
+                Image(systemName: "gear")
+                    .imageScale(.large)
+                    .padding()
+            }
+        }
+        .sheet(isPresented: $showSettings) {
+            SettingsView()
         }
     }
 }
