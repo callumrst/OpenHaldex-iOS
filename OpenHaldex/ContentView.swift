@@ -20,17 +20,14 @@ struct ContentView: View {
                 .ignoresSafeArea()
             
             VStack(alignment: .center, spacing: 8) {
-                Text("Forbes Automotive")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .padding(.top, 20)
                 
                 Text("OpenHaldex Controller")
-                    .font(.title2)
-                    .fontWeight(.medium)
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding(.top)
                 
-                Text("Current version: \(AppConstants.version)")
-                    .foregroundColor(Color.white)
+                Text("App version: \(AppConstants.version)")
+                    .fontWeight(.regular)
                 
                 Text(bluetoothManager.isConnected ? "Status: Connected to \(bluetoothManager.connectedDeviceName ?? "device")" : "Status: Not connected")
                     .foregroundColor(bluetoothManager.isConnected ? Color(red: 0.0, green: 0.5, blue: 0.0) : .red)
